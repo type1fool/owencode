@@ -4,12 +4,8 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { AfterimagePass } from "three/examples/jsm/postprocessing/AfterimagePass";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
-import { FilmPass } from "three/examples/jsm/postprocessing/FilmPass";
-import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
-import { Group } from "three";
 
 const scene = new THREE.Scene();
-scene.raycast(THREE.Raycaster);
 const camera = new THREE.PerspectiveCamera(
   120,
   window.innerWidth / window.innerHeight,
@@ -18,6 +14,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 const renderer = new THREE.WebGLRenderer({
   canvas: document.getElementById("bg"),
+  antialias: true,
 });
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -27,20 +24,57 @@ renderer.render(scene, camera);
 
 const composer = new EffectComposer(renderer);
 const renderPass = new RenderPass(scene, camera);
-const afterImagePass = new AfterimagePass(0.5);
+const afterImagePass = new AfterimagePass(0.6);
 const bloomPass = new UnrealBloomPass(new THREE.Vector2(), 0.5, 1, 0);
-const filmPass = new FilmPass(0.5, 0, 0, 0);
 composer.addPass(renderPass);
 composer.addPass(afterImagePass);
 composer.addPass(bloomPass);
-composer.addPass(filmPass);
 
 const meshGroup = new THREE.Group();
+const primaryGeometry = new THREE.TetrahedronBufferGeometry(
+  THREE.MathUtils.randInt(5, 30)
+);
+
+Array(60)
+  .fill()
+  .map((x) => addMesh(x));
+scene.add(meshGroup);
+
+const pointLight = new THREE.PointLight(0xffffff, 0.02);
+const ambientLight = new THREE.AmbientLight("white", 0);
+pointLight.position.set(100, 200, 200);
+scene.add(pointLight, ambientLight);
+
+const starGeometry = new THREE.SphereBufferGeometry(
+  THREE.MathUtils.randFloatSpread(0.5),
+  24,
+  24
+);
+const starMaterial = new THREE.MeshToonMaterial({ color: 0xffffff });
+
+const contentElement = document.getElementById("content");
+
+contentElement.onscroll = moveCamera;
+
+camera.updateProjectionMatrix();
+composer.render();
+
+// animate();
+
+function animate() {
+  requestAnimationFrame(animate);
+  // TODO: slow down/stop when close to meshGroup
+  // camera.position.z += -0.01;
+
+  if (typeof controls !== "undefined") {
+    controls.update();
+  }
+
+  camera.updateProjectionMatrix();
+  composer.render();
+}
 
 function addMesh(iteration = 1) {
-  const primaryGeometry = new THREE.TetrahedronBufferGeometry(
-    THREE.MathUtils.randInt(5, 30)
-  );
   const primaryMaterial = new THREE.MeshPhysicalMaterial({
     clearcoat: 1,
     color: new THREE.Color(
@@ -65,44 +99,11 @@ function addMesh(iteration = 1) {
   meshGroup.add(mesh);
 }
 
-Array(60)
-  .fill()
-  .map((x) => addMesh(x));
-scene.add(meshGroup);
-
-const pointLight = new THREE.PointLight(0xffffff, 0.02);
-const ambientLight = new THREE.AmbientLight("white", 0);
-pointLight.position.set(100, 200, 200);
-scene.add(pointLight, ambientLight);
-
-function animate() {
-  requestAnimationFrame(animate);
-  // TODO: slow down/stop when close to meshGroup
-  // camera.position.z += -0.01;
-
-  if (typeof controls !== "undefined") {
-    controls.update();
-  }
-
-  camera.updateProjectionMatrix();
-  composer.render();
-}
-// animate();
-
-const starGeometry = new THREE.SphereBufferGeometry(
-  THREE.MathUtils.randFloatSpread(0.5),
-  24,
-  24
-);
-const starMaterial = new THREE.MeshToonMaterial({ color: 0xffffff });
-
 function getRandomFloatCoordinates(spread) {
   return Array(3)
     .fill()
     .map(() => THREE.MathUtils.randFloatSpread(spread));
 }
-
-const contentElement = document.getElementById("content");
 
 function moveCamera(event) {
   const t = event.target.scrollTop;
@@ -110,7 +111,3 @@ function moveCamera(event) {
   camera.updateProjectionMatrix();
   composer.render();
 }
-contentElement.onscroll = moveCamera;
-
-camera.updateProjectionMatrix();
-composer.render();
