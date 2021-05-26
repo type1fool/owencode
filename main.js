@@ -78,7 +78,7 @@ scene.add(pointLight, ambientLight);
 function animate() {
   requestAnimationFrame(animate);
   // TODO: slow down/stop when close to meshGroup
-  camera.position.z += -0.01;
+  // camera.position.z += -0.01;
 
   if (typeof controls !== "undefined") {
     controls.update();
@@ -87,7 +87,7 @@ function animate() {
   camera.updateProjectionMatrix();
   composer.render();
 }
-animate();
+// animate();
 
 const starGeometry = new THREE.SphereBufferGeometry(
   THREE.MathUtils.randFloatSpread(0.5),
@@ -96,29 +96,21 @@ const starGeometry = new THREE.SphereBufferGeometry(
 );
 const starMaterial = new THREE.MeshToonMaterial({ color: 0xffffff });
 
-function addStar() {
-  const star = new THREE.Mesh(starGeometry, starMaterial);
-  const [x, y, z] = getRandomFloatCoordinates(100);
-  star.position.set(x, y, z);
-  scene.add(star);
-}
-
 function getRandomFloatCoordinates(spread) {
   return Array(3)
     .fill()
     .map(() => THREE.MathUtils.randFloatSpread(spread));
 }
 
-function generateStars() {
-  Array(2000).fill().map(addStar);
-}
-generateStars();
-
 const contentElement = document.getElementById("content");
 
 function moveCamera(event) {
   const t = event.target.scrollTop;
   camera.position.setY(t * -0.02);
-  // pointLight.position.x += t * 0.02;
+  camera.updateProjectionMatrix();
+  composer.render();
 }
 contentElement.onscroll = moveCamera;
+
+camera.updateProjectionMatrix();
+composer.render();
