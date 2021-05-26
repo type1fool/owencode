@@ -17,9 +17,10 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true,
 });
 
+scene.background = new THREE.Color("#050505");
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
-camera.position.setZ(150);
+camera.position.setZ(100);
 renderer.render(scene, camera);
 
 const composer = new EffectComposer(renderer);
