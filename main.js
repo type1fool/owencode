@@ -54,7 +54,7 @@ const starMaterial = new THREE.PointsMaterial({
 const starGeometry = new THREE.BufferGeometry();
 const starCount = 5000;
 const starPositions = new Float32Array(starCount * 3).map(
-  (i) => (Math.random() - 0.5) * 3000
+  (i) => (Math.random() - 0.5) * 5000
 );
 
 starGeometry.setAttribute(
