@@ -41,7 +41,6 @@
 
   main {
     @apply absolute w-screen h-screen overflow-y-auto block z-10;
-    scroll-snap-type: y mandatory;
   }
 
   canvas#bg {
@@ -49,11 +48,10 @@
   }
 
   section {
-    @apply relative w-screen h-screen flex place-content-center;
-    scroll-snap-align: start;
+    @apply relative w-screen min-h-screen flex place-content-center;
 
     & div {
-      @apply w-full p-12 rounded max-w-prose place-self-center bg-black shadow-2xl bg-opacity-70 bg-blend-saturation;
+      @apply w-full lg:p-12 p-4 transition-all duration-200 ease-in rounded max-w-prose place-self-center bg-gradient-to-br from-black to-transparent shadow-2xl;
     }
   }
 
