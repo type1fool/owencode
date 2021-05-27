@@ -17,7 +17,7 @@ const renderer = new THREE.WebGLRenderer({
   antialias: true,
 });
 
-scene.background = new THREE.Color("#050505");
+renderer.setClearColor(new THREE.Color("#040404"), 1);
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 camera.position.setZ(100);
@@ -46,12 +46,24 @@ const ambientLight = new THREE.AmbientLight("white", 0);
 pointLight.position.set(100, 200, 200);
 scene.add(pointLight, ambientLight);
 
-const starGeometry = new THREE.SphereBufferGeometry(
-  THREE.MathUtils.randFloatSpread(0.5),
-  24,
-  24
+const starMaterial = new THREE.PointsMaterial({
+  size: 1,
+  // map: new THREE.SphereBufferGeometry({ size: 0.005 }),
+  // transparent: true,
+});
+const starGeometry = new THREE.BufferGeometry();
+const starCount = 5000;
+const starPositions = new Float32Array(starCount * 3).map(
+  (i) => (Math.random() - 0.5) * 3000
 );
-const starMaterial = new THREE.MeshToonMaterial({ color: 0xffffff });
+
+starGeometry.setAttribute(
+  "position",
+  new THREE.BufferAttribute(starPositions, 3)
+);
+
+const starMesh = new THREE.Points(starGeometry, starMaterial);
+scene.add(starMesh);
 
 const contentElement = document.getElementById("content");
 
@@ -59,6 +71,8 @@ contentElement.onscroll = moveCamera;
 
 camera.updateProjectionMatrix();
 composer.render();
+
+window.addEventListener("resize", onWindowResize);
 
 // animate();
 
@@ -110,5 +124,13 @@ function moveCamera(event) {
   const t = event.target.scrollTop;
   camera.position.setY(t * -0.02);
   camera.updateProjectionMatrix();
+  composer.render();
+}
+
+function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
   composer.render();
 }
