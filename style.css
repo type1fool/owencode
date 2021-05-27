@@ -4,6 +4,7 @@
 
 @layer base {
   html {
+    @apply w-screen h-screen overflow-hidden;
     scroll-behavior: smooth;
   }
 
@@ -36,7 +37,7 @@
   }
 
   body {
-    @apply bg-black text-gray-200 text-xl font-mono leading-loose;
+    @apply w-full h-full overflow-y-auto bg-black text-gray-200 text-xl font-mono leading-loose;
   }
 
   main {
