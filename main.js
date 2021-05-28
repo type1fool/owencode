@@ -2,7 +2,6 @@ import "./style.css";
 import * as THREE from "three";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
-import { AfterimagePass } from "three/examples/jsm/postprocessing/AfterimagePass";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 
 const scene = new THREE.Scene();
@@ -25,10 +24,8 @@ renderer.render(scene, camera);
 
 const composer = new EffectComposer(renderer);
 const renderPass = new RenderPass(scene, camera);
-const afterImagePass = new AfterimagePass(0.6);
 const bloomPass = new UnrealBloomPass(new THREE.Vector2(), 0.5, 1, 0);
 composer.addPass(renderPass);
-composer.addPass(afterImagePass);
 composer.addPass(bloomPass);
 
 const meshGroup = new THREE.Group();
