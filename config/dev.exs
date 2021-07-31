@@ -9,15 +9,6 @@ config :owen_code, OwenCode.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
-config :owen_code, :pow_assent,
-  providers: [
-    github: [
-      client_id: "cadeaafa04a9e11b479e",
-      client_secret: "77f14340d76765738d79214a3ba9b7ef1d2203e4",
-      strategy: Assent.Strategy.Github
-    ]
-  ]
-
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
