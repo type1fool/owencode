@@ -1,4 +1,5 @@
 defmodule OwenCode.Blog.Post do
+  @derive {Jason.Encoder, except: []}
   @enforce_keys [:id, :author, :title, :body, :description, :tags, :date]
   defstruct [:id, :author, :title, :body, :description, :tags, :date]
 
