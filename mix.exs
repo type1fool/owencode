@@ -53,6 +53,7 @@ defmodule OwenCode.MixProject do
       {:makeup_elixir, ">= 0.0.0"},
       {:makeup_erlang, ">= 0.0.0"},
       {:surface, "~> 0.5.1"},
+      {:git_hooks, "~> 0.6.3", only: [:dev], runtime: false},
       {:plug_cowboy, "~> 2.0"}
     ]
   end
