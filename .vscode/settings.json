@@ -22,6 +22,17 @@
       "database": "owen_code_dev",
       "username": "postgres",
       "password": "postgres"
+    },
+    {
+      "previewLimit": 500,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Macbook Local",
+      "group": "Macbook",
+      "database": "owen",
+      "username": "owen",
+      "password": ""
     }
   ]
 }

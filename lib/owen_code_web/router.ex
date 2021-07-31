@@ -42,9 +42,19 @@ defmodule OwenCodeWeb.Router do
   end
 
   scope "/", OwenCodeWeb do
-    pipe_through [:browser, :protected]
+    pipe_through :browser
 
     live "/", PageLive, :index
+    live "/posts", PostLive, :index
+    live "/posts/:id", PostLive, :show
+  end
+
+  scope "/", OwenCodeWeb do
+    pipe_through [:browser, :protected]
+
+    # live "/", PageLive, :index
+    # live "/posts", PostLive, :index
+    # live "/posts/:id", PostLive, :show
   end
 
   # Other scopes may use custom stacks.

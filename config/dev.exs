@@ -2,8 +2,8 @@ use Mix.Config
 
 # Configure your database
 config :owen_code, OwenCode.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "owen",
+  password: "",
   database: "owen_code_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
@@ -61,7 +61,8 @@ config :owen_code, OwenCodeWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/owen_code_web/(live|views)/.*(ex)$",
-      ~r"lib/owen_code_web/templates/.*(eex)$"
+      ~r"lib/owen_code_web/templates/.*(eex)$",
+      ~r"priv/posts/*/.*(md)$"
     ]
   ]
 
