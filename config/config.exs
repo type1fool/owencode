@@ -11,6 +11,18 @@ config :owen_code,
   ecto_repos: [OwenCode.Repo],
   generators: [binary_id: true]
 
+if Mix.env() == :dev do
+  config :git_hooks,
+    auto_install: true,
+    hooks: [
+      pre_commit: [
+        tasks: [
+          {:mix_task, :format, ["--check-formatted"]}
+        ]
+      ]
+    ]
+end
+
 # Configures the endpoint
 config :owen_code, OwenCodeWeb.Endpoint,
   url: [host: "localhost"],
