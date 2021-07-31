@@ -25,6 +25,7 @@
 		"jakebecker.elixir-ls",
 		"mtxr.sqltools",
 		"mtxr.sqltools-driver-pg",
+		"msaraiva.surface",
 		"github.vscode-pull-request-github"
 	],
 
