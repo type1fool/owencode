@@ -14,7 +14,6 @@
       <span><%= post.author %></span>
       <span><%= post.date %></span>
       <span><%= post.description %></span>
-      <%# live_patch "Read", to: Routes.live_path(@socket, PostLive, :index) %>
       <%= link "Read", to: Routes.post_path(@socket, :show, post.id) %>
     </article>
   <% end %>
