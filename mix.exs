@@ -49,6 +49,9 @@ defmodule OwenCode.MixProject do
       {:jason, "~> 1.0"},
       {:pow, "~> 1.0"},
       {:pow_assent, "~> 0.4.11"},
+      {:nimble_publisher, "~> 0.1.0"},
+      {:makeup_elixir, ">= 0.0.0"},
+      {:makeup_erlang, ">= 0.0.0"},
       {:plug_cowboy, "~> 2.0"}
     ]
   end
