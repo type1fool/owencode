@@ -64,7 +64,7 @@ defmodule OwenCodeWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: OwenCodeWeb.Telemetry
+      live_dashboard "/dashboard", metrics: OwenCodeWeb.Telemetry, ecto_repos: [OwenCode.Repo]
     end
   end
 end
