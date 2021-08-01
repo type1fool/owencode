@@ -62,7 +62,7 @@ config :owen_code, OwenCodeWeb.Endpoint,
       ~r"priv/gettext/.*(po)$",
       ~r"lib/owen_code_web/(live|views)/.*(ex)$",
       ~r"lib/owen_code_web/templates/.*(eex)$",
-      ~r"lib/my_app_web/live/.*(sface)$",
+      ~r"lib/owen_code_web/live/.*(sface)$",
       ~r"priv/posts/*/.*(md)$"
     ]
   ]
