@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="w-screen h-screen overflow-hidden">
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -9,7 +9,7 @@
     <link phx-track-static rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body>
+  <body class="w-full h-full overflow-y-auto text-gray-800 bg-gray-200">
     <header>
       <section class="container">
         <span>OwenCode</span>
@@ -23,6 +23,9 @@
         </nav>
       </section>
     </header>
-    <%= @inner_content %>
+
+    <main role="main" class="container prose">
+      <%= @inner_content %>
+    </main>
   </body>
 </html>
