@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :owen_code, OwenCode.Repo,
   username: "owen",
-  password: "",
+  password: "owen",
   database: "owen_code_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
