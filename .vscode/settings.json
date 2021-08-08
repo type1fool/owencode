@@ -33,6 +33,17 @@
       "database": "owen",
       "username": "owen",
       "password": ""
+    },
+    {
+      "previewLimit": 500,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Fedora Postgres",
+      "group": "Octopus",
+      "database": "postgres",
+      "username": "postgres",
+      "password": "postgres"
     }
   ]
 }
