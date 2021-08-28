@@ -174,11 +174,11 @@
         {Credo.Check.Refactor.DoubleBooleanNegation, false},
         {Credo.Check.Refactor.ModuleDependencies, false},
         {Credo.Check.Refactor.NegatedIsNil, false},
-        {Credo.Check.Refactor.PipeChainStart, false},
-        {Credo.Check.Refactor.VariableRebinding, false},
-        {Credo.Check.Warning.LeakyEnvironment, false},
-        {Credo.Check.Warning.MapGetUnsafePass, false},
-        {Credo.Check.Warning.UnsafeToAtom, false}
+        {Credo.Check.Refactor.PipeChainStart, []},
+        {Credo.Check.Refactor.VariableRebinding, []},
+        {Credo.Check.Warning.LeakyEnvironment, []},
+        {Credo.Check.Warning.MapGetUnsafePass, []},
+        {Credo.Check.Warning.UnsafeToAtom, []}
 
         #
         # Custom checks can be created using `mix credo.gen.check`.
