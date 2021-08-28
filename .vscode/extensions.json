@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "msaraiva.surface",
-    "jakebecker.elixir-ls"
+    "jakebecker.elixir-ls",
+    "phoenixframework.phoenix"
   ]
 }
