@@ -3,6 +3,7 @@
     "msaraiva.surface",
     "jakebecker.elixir-ls",
     "phoenixframework.phoenix",
-    "bradlc.vscode-tailwindcss"
+    "bradlc.vscode-tailwindcss",
+    "pantajoe.vscode-elixir-credo"
   ]
 }
