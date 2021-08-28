@@ -1,0 +1,60 @@
+name: Phoenix CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+
+    name: Build and test
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        elixir: [1.12.2]
+        otp: [24]
+
+    services:
+      postgres:
+        image: postgres:12.6
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: owencode_test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+    - name: Check Out Repo
+      uses: actions/checkout@v2
+    - name: Set up Elixir
+      uses: erlef/setup-elixir@885971a72ed1f9240973bd92ab57af8c1aa68f24
+      with:
+        elixir-version: ${{ matrix.elixir }}
+        otp-version: ${{ matrix.otp }}
+        experimental_otp: true
+    - name: Restore dependencies cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          deps
+          _build
+        key: ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-${{ matrix.elixir }}-${{ matrix.otp }}
+    - name: Install dependencies
+      run: mix deps.get
+    - name: Setup DB
+      run: mix ecto.setup
+    - name: Run tests
+      run: mix test
+    - name: Check Formatting
+      run: mix format --check-formatted
+    - name: Review Code with Credo
+      run: mix credo
+    - name: Review Security with Sobelow
+      run: mix sobelow

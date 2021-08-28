@@ -48,6 +48,8 @@ defmodule OwenCode.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.11.1", only: [:dev, :test]},
       {:plug_cowboy, "~> 2.5"}
     ]
   end
