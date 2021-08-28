@@ -50,6 +50,9 @@ defmodule OwenCode.MixProject do
       {:jason, "~> 1.2"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.11.1", only: [:dev, :test]},
+      {:nimble_publisher, "~> 0.1.2"},
+      {:makeup_elixir, ">= 0.0.0"},
+      {:makeup_erlang, ">= 0.0.0"},
       {:plug_cowboy, "~> 2.5"}
     ]
   end
