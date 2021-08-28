@@ -2,6 +2,7 @@
   "recommendations": [
     "msaraiva.surface",
     "jakebecker.elixir-ls",
-    "phoenixframework.phoenix"
+    "phoenixframework.phoenix",
+    "bradlc.vscode-tailwindcss"
   ]
 }
