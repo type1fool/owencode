@@ -1,3 +1,5 @@
+[![Phoenix CI](https://github.com/type1fool/owencode/actions/workflows/phoenix.yml/badge.svg?branch=main)](https://github.com/type1fool/owencode/actions/workflows/phoenix.yml)
+
 # OwenCode
 
 To start your Phoenix server:
