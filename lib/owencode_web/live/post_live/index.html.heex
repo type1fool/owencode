@@ -1,0 +1,17 @@
+<h1>Posts</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal OwenCodeWeb.PostLive.FormComponent,
+    id: @post.id || :new,
+    title: @page_title,
+    action: @live_action,
+    post: @post,
+    return_to: Routes.post_index_path(@socket, :index) %>
+<% end %>
+
+  <ul id="posts" class="flex flex-col gap-2">
+    <%= for post <- @posts do %>
+      <li id={"post-#{post.id}"}><%= live_redirect post.title, to: Routes.post_show_path(@socket, :show, post) %></li>
+    <% end %>
+  </ul>
+
