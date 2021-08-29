@@ -1,0 +1,18 @@
+<span>
+  <%= live_redirect "Back", to: Routes.post_index_path(@socket, :index) %>
+</span>
+
+<article>
+  <h1><%= @post.title %></h1>
+  
+  <span><%= @post.date %></span> by <span><%= @post.author %></span>
+  
+  <ul class="flex flex-wrap gap-4">
+    <%= for tag <- @post.tags do %>
+      <li><%= tag %></li>
+    <% end %>
+  </ul>
+  
+  <p><%= @post.body %></p>
+</article>
+
