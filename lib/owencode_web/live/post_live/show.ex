@@ -4,12 +4,12 @@ defmodule OwenCodeWeb.PostLive.Show do
 
   alias OwenCode.Blog
 
-  @impl OwenCodeWeb
+  @impl true
   def mount(_params, _session, socket) do
     {:ok, socket}
   end
 
-  @impl OwenCodeWeb
+  @impl true
   def handle_params(%{"id" => id}, _, socket) do
     {:noreply,
      socket

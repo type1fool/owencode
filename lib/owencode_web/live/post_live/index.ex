@@ -3,14 +3,13 @@ defmodule OwenCodeWeb.PostLive.Index do
   use OwenCodeWeb, :live_view
 
   alias OwenCode.Blog
-  alias OwenCode.Blog.Post
 
-  @impl OwenCodeWeb
+  @impl true
   def mount(_params, _session, socket) do
     {:ok, assign(socket, :posts, list_posts())}
   end
 
-  @impl OwenCodeWeb
+  @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
