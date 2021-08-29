@@ -66,7 +66,8 @@ config :owencode, OwenCodeWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/owencode_web/(live|views)/.*(ex)$",
-      ~r"lib/owencode_web/templates/.*(eex)$"
+      ~r"lib/owencode_web/templates/.*(eex)$",
+      ~r"posts/*/.*(md)$"
     ]
   ]
 
