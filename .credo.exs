@@ -162,7 +162,7 @@
         {Credo.Check.Design.DuplicatedCode, [nodes_threshold: 4]},
         {Credo.Check.Readability.AliasAs, false},
         {Credo.Check.Readability.BlockPipe, []},
-        {Credo.Check.Readability.ImplTrue, []},
+        {Credo.Check.Readability.ImplTrue, false},
         {Credo.Check.Readability.MultiAlias, false},
         {Credo.Check.Readability.SeparateAliasRequire, false},
         {Credo.Check.Readability.SinglePipe, []},
