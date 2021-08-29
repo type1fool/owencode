@@ -1,4 +1,5 @@
 defmodule OwenCodeWeb.ModalComponent do
+  @moduledoc false
   use OwenCodeWeb, :live_component
 
   @impl true
