@@ -9,10 +9,11 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body class="w-full h-full overflow-auto text-gray-800 bg-gray-100 dark:bg-gray-800 dark:text-gray-100">
+  <body class="w-full h-full overflow-auto text-default-100 bg-default-800">
     <header>
       <section class="container">
         <nav>
+          <span class="text-5xl font-barrio">OwenCode</span>
           <ul class="flex gap-4">
             <li><%= link "Home", to: Routes.page_path(@conn, :index)%></li>
             <li><%= link "Posts", to: Routes.post_index_path(@conn, :index)%></li>
@@ -23,6 +24,9 @@
         </nav>
       </section>
     </header>
-    <%= @inner_content %>
+
+    <main class="container">
+      <%= @inner_content %>
+    </main>
   </body>
 </html>
