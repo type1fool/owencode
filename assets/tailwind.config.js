@@ -6,6 +6,9 @@ module.exports = {
   purge: ["./js/**/*.js", "../lib/*_web/**/*.*ex"],
   darkMode: 'off', // or 'media' or 'class'
   theme: {
+    container: {
+      center: true,
+    },
     extend: {
       colors: {
         default: colors.blueGray,
