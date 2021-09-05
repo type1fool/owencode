@@ -10,6 +10,10 @@
     "tailwindcss": "^2.2.8"
   },
   "dependencies": {
+    "@tailwindcss/aspect-ratio": "^0.2.1",
+    "@tailwindcss/forms": "^0.3.3",
+    "@tailwindcss/line-clamp": "^0.2.1",
+    "@tailwindcss/typography": "^0.4.1",
     "alpinejs": "^3.2.4"
   }
 }
