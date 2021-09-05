@@ -65,11 +65,11 @@ RUN chown nobody:nobody /app
 
 USER nobody:nobody
 
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/hello_elixir ./
+COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/owencode ./
 
 ENV HOME=/app
 ENV MIX_ENV=prod
 ENV SECRET_KEY_BASE=nokey
 ENV PORT=4000
 
-CMD ["bin/hello_elixir", "start"]
+CMD ["bin/owencode", "start"]
