@@ -45,5 +45,8 @@
       "username": "postgres",
       "password": "postgres"
     }
-  ]
+  ],
+  "files.associations": {
+    "*.sh.eex": "shellscript"
+  }
 }
