@@ -12,7 +12,9 @@
   <ul id="posts" class="flex flex-col gap-2 p-0 list-none">
     <%= for post <- @posts do %>
       <li id={"post-#{post.id}"} class="py-4">
-        <%= live_redirect post.title, to: Routes.post_show_path(@socket, :show, post) %>
+        <h2>
+          <%= live_redirect post.title, to: Routes.post_show_path(@socket, :show, post), class: "text-6xl" %>
+        </h2>
 
         <p><%= post.description %></p>
 
