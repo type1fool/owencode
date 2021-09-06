@@ -9,11 +9,11 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body class="flex flex-col w-full h-full gap-4 py-4 pb-20 overflow-auto font-mono leading-relaxed tracking-normal text-default-200 bg-default-800">
+  <body class="flex flex-col w-full h-full gap-4 py-4 pb-20 overflow-auto text-lg leading-relaxed tracking-normal xl:text-xl sm:text-base text-default-200 bg-default-800">
     <header>
       <section class="container sticky top-0 z-50 sm:px-2 lg:px-4">
         <nav class="flex flex-wrap items-end justify-between gap-8">
-          <span class="text-5xl font-barrio">OwenCode</span>
+          <span class="text-5xl lowercase font-logo">OwenCode</span>
           <ul class="flex gap-4 list-none">
             <li><%= link "Home", to: Routes.page_path(@conn, :index)%></li>
             <li><%= link "Posts", to: Routes.post_index_path(@conn, :index)%></li>
