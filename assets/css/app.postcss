@@ -39,4 +39,11 @@
   h4 { @apply text-xl; }
   h5 { @apply text-lg; }
   h6 { @apply text-base; }
+
+  a {
+    @apply font-bold transition;
+
+    &:hover { @apply text-brand-400; }
+    &:focus { @apply text-brand-200 underline; }
+  }
 }
