@@ -19,6 +19,7 @@ module.exports = {
         info: colors.sky,
       },
       fontFamily: {
+        sans: ["Kufam", ...defaultTheme.fontFamily.sans],
         barrio: ["Barrio", ...defaultTheme.fontFamily.serif],
         mono: ["Fira Code", ...defaultTheme.fontFamily.mono],
         logo: ["PaletteMosaic", "cursive", ...defaultTheme.fontFamily.sans],
