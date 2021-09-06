@@ -42,8 +42,10 @@ COPY lib lib
 
 # build assets
 RUN npm run --prefix ./assets deploy
-RUN NODE_ENV=dev mix esbuild default
-RUN MIX_ENV=prod mix phx.digest
+ENV MIX_ENV=dev
+RUN mix esbuild default
+ENV MIX_ENV=prod
+RUN mix phx.digest
 
 # compile and build release
 COPY rel rel
