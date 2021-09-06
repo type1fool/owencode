@@ -9,14 +9,14 @@
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>
 
-  <ul id="posts" class="flex flex-col gap-2">
+  <ul id="posts" class="flex flex-col gap-2 p-0 list-none">
     <%= for post <- @posts do %>
       <li id={"post-#{post.id}"} class="py-4">
         <%= live_redirect post.title, to: Routes.post_show_path(@socket, :show, post) %>
 
         <p><%= post.description %></p>
 
-        <ul class="flex flex-wrap gap-2">
+        <ul class="flex flex-wrap gap-2 p-0 list-none">
           <%= for tag <- post.tags do %>
             <li class="px-2 rounded bg-default-600"><%= tag %></li>
           <% end %>
