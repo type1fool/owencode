@@ -11,7 +11,16 @@
 
   <ul id="posts" class="flex flex-col gap-2">
     <%= for post <- @posts do %>
-      <li id={"post-#{post.id}"}><%= live_redirect post.title, to: Routes.post_show_path(@socket, :show, post) %></li>
+      <li id={"post-#{post.id}"} class="py-4">
+        <%= live_redirect post.title, to: Routes.post_show_path(@socket, :show, post) %>
+
+        <p><%= post.description %></p>
+
+        <ul class="flex flex-wrap gap-2">
+          <%= for tag <- post.tags do %>
+            <li class="px-2 rounded bg-default-600"><%= tag %></li>
+          <% end %>
+        </ul>
+      </li>
     <% end %>
   </ul>
-
