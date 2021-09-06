@@ -7,9 +7,8 @@ import Config
 # any compile-time configuration in here, as it won't be applied.
 # The block below contains prod specific runtime configuration.
 if config_env() == :prod do
-  app_name =
-    System.get_env("FLY_APP_NAME") ||
-      raise "FLY_APP_NAME not available"
+  app_name = System.get_env("FLY_APP_NAME", "divine-butterfly-4108 ")
+  # || raise "FLY_APP_NAME not available"
 
   database_url =
     System.get_env("DATABASE_URL") ||
