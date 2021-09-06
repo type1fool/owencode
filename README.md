@@ -1,5 +1,4 @@
 [![Phoenix CI](https://github.com/type1fool/owencode/actions/workflows/phoenix.yml/badge.svg?branch=main)](https://github.com/type1fool/owencode/actions/workflows/phoenix.yml)
-
 [![Fly.io Deploy](https://github.com/type1fool/owencode/actions/workflows/deploy.yml/badge.svg)](https://github.com/type1fool/owencode/actions/workflows/deploy.yml)
 
 # OwenCode
