@@ -1,5 +1,3 @@
-<h1>Posts</h1>
-
 <%= if @live_action in [:new, :edit] do %>
   <%= live_modal OwenCodeWeb.PostLive.FormComponent,
     id: @post.id || :new,
@@ -9,15 +7,14 @@
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>
 
-  <ul id="posts" class="flex flex-col gap-2 p-0 list-none">
+  <ul id="posts" class="flex flex-col gap-8 list-none">
     <%= for post <- @posts do %>
-      <li id={"post-#{post.id}"} class="py-4">
+      <li id={"post-#{post.id}"}>
         <h2>
-          <%= live_redirect post.title, to: Routes.post_show_path(@socket, :show, post), class: "text-6xl" %>
+          <%= live_redirect post.title, to: Routes.post_show_path(@socket, :show, post) %>
         </h2>
 
-        <p><%= post.description %></p>
-
+        <p class="pb-4"><%= post.description %></p>
 
         <ul class="flex flex-wrap gap-2 p-0 list-none">
           <%= if !post.published, do: content_tag :span, "DRAFT", class: "p-2 pb-1 leading-none rounded bg-danger-600 text-sm" %>
