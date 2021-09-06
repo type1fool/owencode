@@ -30,20 +30,25 @@
     src: local('Kufam'), url('/fonts/Kufam-VariableFont_wght.ttf');
   }
 
+  @font-face {
+    font-family: "BadScript";
+    src: local('BadScript'), url('/fonts/BadScript-Regular.ttf');
+  }
+
   html {
     scoll-behavior: smooth;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-barrio;
+    @apply font-hand text-brand-300;
   }
 
-  h1 { @apply text-6xl; }
-  h2 { @apply text-5xl; }
-  h3 { @apply text-4xl; }
-  h4 { @apply text-3xl; }
-  h5 { @apply text-2xl; }
-  h6 { @apply text-xl; }
+  h1 { @apply text-5xl; }
+  h2 { @apply text-4xl; }
+  h3 { @apply text-3xl; }
+  h4 { @apply text-2xl; }
+  h5 { @apply text-xl; }
+  h6 { @apply text-lg; }
 
   a {
     @apply font-bold transition;
@@ -54,5 +59,9 @@
 
   ul {
     @apply list-disc pl-4;
+  }
+
+  blockquote {
+    @apply p-8 rounded-lg bg-default-700 shadow-md italic font-hand text-3xl;
   }
 }

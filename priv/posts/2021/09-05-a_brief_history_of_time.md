@@ -2,7 +2,7 @@
   title: "A Brief History of Time",
   author: "Owen Bickford",
   tags: ~w(life work journey elixir php enterprise),
-  description: "How I gained confidence as a full-stack engineer",
+  description: "How I gained confidence as a full-stack engineer.",
   published: true,
 }
 ---

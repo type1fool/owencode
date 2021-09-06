@@ -1,7 +1,5 @@
-<%= live_redirect "Posts", to: Routes.post_index_path(@socket, :index) %>
-
 <article class="flex flex-col gap-6">
-  <h1 class="text-5xl"><%= @post.title %></h1>
+  <h1 class="text-5xl text-justify"><%= @post.title %></h1>
 
   <div class="flex flex-wrap items-baseline gap-4">
     <span><%= @post.date %> by <%= @post.author %></span>
