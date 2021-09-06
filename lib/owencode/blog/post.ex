@@ -9,7 +9,8 @@ defmodule OwenCode.Blog.Post do
     :body,
     :description,
     :tags,
-    :date
+    :date,
+    :published
   ]
   defstruct [
     :id,
@@ -18,7 +19,8 @@ defmodule OwenCode.Blog.Post do
     :body,
     :description,
     :tags,
-    :date
+    :date,
+    :published
   ]
 
   def build(filename, attrs, body) do

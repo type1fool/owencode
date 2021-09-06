@@ -1,8 +1,9 @@
 %{
-  title: "A Brief Histor of Time",
+  title: "A Brief History of Time",
   author: "Owen Bickford",
   tags: ~w(life work journey elixir php enterprise),
   description: "How I gained confidence as a full-stack engineer",
+  published: true,
 }
 ---
 ## Dawn of Time
@@ -52,3 +53,7 @@ As long as COVID doesn't get in the way, I will be attending my first developer 
 Another new dimension would be [fly.io](fly.io). owencode.com was previously hosted on Netlify, as it was a basic HTML page with Javascript and ThreeJS for fun 3D stuff. Now, owencode.com is a Phoenix application built using [José Valim's approach](https://dashbit.co/blog/welcome-to-our-blog-how-it-was-made) to building the Dashbit blog. At the time of writing, it's deployed to a single region, but Fly is special in that multi-region deployment is vastly simplified compared to the alternatives.
 
 Great job, Fly!
+
+## Coming Soon
+
+- A Peek Under the Hood
