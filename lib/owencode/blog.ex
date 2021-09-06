@@ -11,10 +11,21 @@ defmodule OwenCode.Blog do
     as: :posts,
     highlighters: [:makeup_elixir, :makeup_erlang]
 
-  @posts @posts |> Enum.filter(& &1.published) |> Enum.sort_by(& &1.date, {:desc, Date})
+  @mix_env Mix.env()
   @tags @posts |> Enum.flat_map(& &1.tags) |> Enum.uniq() |> Enum.sort()
 
-  def list_posts, do: @posts
+  def list_posts do
+    case @mix_env do
+      :dev ->
+        Enum.sort_by(@posts, & &1.date, {:desc, Date})
+
+      _ ->
+        @posts
+        |> Enum.filter(& &1.published)
+        |> Enum.sort_by(& &1.date, {:desc, Date})
+    end
+  end
+
   def list_tags, do: @tags
   def recent_posts, do: Enum.take(list_posts(), 3)
 
