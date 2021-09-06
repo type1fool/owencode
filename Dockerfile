@@ -41,10 +41,7 @@ COPY assets assets
 COPY lib lib
 
 # build assets
-RUN npm run --prefix ./assets deploy
-RUN mix esbuild.install
-RUN mix esbuild default assets/js/app.js --bundle --minify --target=es2016 --outdir=priv/static/assets/
-RUN mix phx.digest
+RUN mix assets.deploy
 
 # compile and build release
 COPY rel rel
