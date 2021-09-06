@@ -12,7 +12,7 @@ module.exports = {
     extend: {
       colors: {
         default: colors.blueGray,
-        brand: colors.violet,
+        brand: colors.emerald,
         success: colors.lime,
         warning: colors.amber,
         danger: colors.rose,
@@ -21,8 +21,9 @@ module.exports = {
       fontFamily: {
         sans: ["Kufam", ...defaultTheme.fontFamily.sans],
         barrio: ["Barrio", ...defaultTheme.fontFamily.serif],
-        mono: ["Fira Code", ...defaultTheme.fontFamily.mono],
+        mono: ["FiraCode", ...defaultTheme.fontFamily.mono],
         logo: ["PaletteMosaic", "cursive", ...defaultTheme.fontFamily.sans],
+        hand: ["BadScript", "cursive", ...defaultTheme.fontFamily.sans],
       },
     },
   },
