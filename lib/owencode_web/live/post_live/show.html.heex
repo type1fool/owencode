@@ -1,18 +1,17 @@
-<span>
-  <%= live_redirect "Back", to: Routes.post_index_path(@socket, :index) %>
-</span>
+<%= live_redirect "Posts", to: Routes.post_index_path(@socket, :index) %>
 
-<article>
-  <h1><%= @post.title %></h1>
-  
-  <span><%= @post.date %></span> by <span><%= @post.author %></span>
-  
-  <ul class="flex flex-wrap gap-4">
-    <%= for tag <- @post.tags do %>
-      <li><%= tag %></li>
-    <% end %>
-  </ul>
-  
-  <p><%= @post.body %></p>
+<article class="flex flex-col gap-6">
+  <h1 class="text-5xl"><%= @post.title %></h1>
+
+  <div class="flex flex-wrap items-baseline gap-4">
+    <span><%= @post.date %> by <%= @post.author %></span>
+
+    <ul class="flex flex-wrap gap-2 p-0 list-none">
+      <%= for tag <- @post.tags do %>
+        <li class="px-2 rounded bg-default-600"><%= tag %></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <%= raw @post.body %>
 </article>
-

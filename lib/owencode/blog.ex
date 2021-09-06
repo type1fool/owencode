@@ -11,7 +11,7 @@ defmodule OwenCode.Blog do
     as: :posts,
     highlighters: [:makeup_elixir, :makeup_erlang]
 
-  @posts Enum.sort_by(@posts, & &1.date, {:desc, Date})
+  @posts @posts |> Enum.filter(& &1.published) |> Enum.sort_by(& &1.date, {:desc, Date})
   @tags @posts |> Enum.flat_map(& &1.tags) |> Enum.uniq() |> Enum.sort()
 
   def list_posts, do: @posts

@@ -1,12 +1,38 @@
+const colors = require("tailwindcss/colors")
+const defaultTheme = require("tailwindcss/defaultTheme")
+
 module.exports = {
   mode: "jit",
   purge: ["./js/**/*.js", "../lib/*_web/**/*.*ex"],
-  darkMode: 'class', // or 'media' or 'class'
+  darkMode: 'off', // or 'media' or 'class'
   theme: {
-    extend: {},
+    container: {
+      center: true,
+    },
+    extend: {
+      colors: {
+        default: colors.blueGray,
+        brand: colors.violet,
+        success: colors.lime,
+        warning: colors.amber,
+        danger: colors.rose,
+        info: colors.sky,
+      },
+      fontFamily: {
+        sans: ["Kufam", ...defaultTheme.fontFamily.sans],
+        barrio: ["Barrio", ...defaultTheme.fontFamily.serif],
+        mono: ["Fira Code", ...defaultTheme.fontFamily.mono],
+        logo: ["PaletteMosaic", "cursive", ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require("@tailwindcss/aspect-ratio"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/forms"),
+    require("@tailwindcss/line-clamp"),
+  ],
 }
