@@ -7,7 +7,7 @@
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>
 
-  <%= if @posts == nil do %>
+  <%= if Enum.count(@posts) == 0 do %>
     <span class="p-8 rounded shadow bg-default-700">No posts yet.</span>
   <% end %>
 
