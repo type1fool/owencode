@@ -12,7 +12,7 @@ module.exports = {
     extend: {
       colors: {
         default: colors.blueGray,
-        brand: colors.emerald,
+        brand: colors.lime,
         success: colors.lime,
         warning: colors.amber,
         danger: colors.rose,

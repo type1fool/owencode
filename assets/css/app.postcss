@@ -37,10 +37,13 @@
 
   html {
     scoll-behavior: smooth;
+
+    /* offset-x | offset-y | blur-radius | color */
+    text-shadow: 0 0.2em 0.4em rgba(0,0,0,0.1);
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-hand text-brand-300;
+    @apply font-hand text-brand-300 text-left;
   }
 
   h1 { @apply text-5xl; }
