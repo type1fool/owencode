@@ -3,7 +3,7 @@
   author: "Owen Bickford",
   tags: ~w(learning documentation path),
   description: "You were hired for a reason.",
-  published: true,
+  published: false,
 }
 ---
 ## Practice

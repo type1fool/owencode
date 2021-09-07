@@ -3,7 +3,7 @@
   author: "Owen Bickford",
   tags: ~w(life work journey elixir php enterprise),
   description: "How I gained confidence as a full-stack engineer.",
-  published: true,
+  published: false,
 }
 ---
 ## Dawn of Time
