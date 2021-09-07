@@ -7,6 +7,10 @@
     return_to: Routes.post_index_path(@socket, :index) %>
 <% end %>
 
+  <%= if @posts == nil do %>
+    <span class="p-8 rounded shadow bg-default-700">No posts yet.</span>
+  <% end %>
+
   <ul id="posts" class="flex flex-col gap-8 list-none">
     <%= for post <- @posts do %>
       <li id={"post-#{post.id}"}>
