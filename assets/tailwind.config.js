@@ -9,6 +9,7 @@ module.exports = {
     container: {
       center: true,
     },
+    colors: colors,
     extend: {
       colors: {
         default: colors.blueGray,
