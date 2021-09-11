@@ -1,14 +1,13 @@
 <article class="flex flex-col gap-6">
   <h1 class="text-5xl text-justify"><%= @post.title %></h1>
 
-  <div class="flex flex-wrap items-baseline gap-4">
-    <span><%= @post.date %> by <%= @post.author %></span>
-
+  <div class="flex flex-wrap items-baseline gap-4 text-sm">
     <ul class="flex flex-wrap gap-2 p-0 list-none">
-      <%= for tag <- @post.tags do %>
-        <li class="px-2 rounded bg-default-600"><%= tag %></li>
-      <% end %>
-    </ul>
+          <%= if !@post.published, do: content_tag :span, "DRAFT", class: "p-2 pb-1 leading-none rounded bg-danger-600 text-sm" %>
+          <%= for tag <- @post.tags do %>
+            <li class="p-2 pb-1 leading-none uppercase rounded bg-default-600"><%= tag %></li>
+          <% end %>
+        </ul>
   </div>
 
   <%= raw @post.body %>

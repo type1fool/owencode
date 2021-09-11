@@ -13,19 +13,20 @@
 
   <ul id="posts" class="flex flex-col gap-8 list-none">
     <%= for post <- @posts do %>
-      <li id={"post-#{post.id}"}>
+      <li id={"post-#{post.id}"} class="flex flex-col gap-2">
         <h2>
           <%= live_redirect post.title, to: Routes.post_show_path(@socket, :show, post) %>
         </h2>
 
-        <p class="pb-4"><%= post.description %></p>
-
-        <ul class="flex flex-wrap gap-2 p-0 list-none">
+        <ul class="flex flex-wrap gap-2 p-0 text-sm list-none">
           <%= if !post.published, do: content_tag :span, "DRAFT", class: "p-2 pb-1 leading-none rounded bg-danger-600 text-sm" %>
           <%= for tag <- post.tags do %>
             <li class="p-2 pb-1 text-sm leading-none uppercase rounded bg-default-600"><%= tag %></li>
           <% end %>
         </ul>
+
+        <p class="pb-4"><%= post.description %></p>
+
       </li>
     <% end %>
   </ul>
