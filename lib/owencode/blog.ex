@@ -21,7 +21,7 @@ defmodule OwenCode.Blog do
 
       _ ->
         @posts
-        |> Enum.filter(& &1.published)
+        |> Enum.filter(&(&1.published && &1.date <= Date.utc_today()))
         |> Enum.sort_by(& &1.date, {:desc, Date})
     end
   end
