@@ -11,7 +11,7 @@
     <blockquote class="mt-4">No posts yet.</blockquote>
   <% end %>
 
-  <ul id="posts" class="flex flex-col gap-8 list-none">
+  <ul id="posts" class="flex flex-col gap-4 p-0 list-none">
     <%= for post <- @posts do %>
       <li id={"post-#{post.id}"} class="flex flex-col gap-2">
         <h2>

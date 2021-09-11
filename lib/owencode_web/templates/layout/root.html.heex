@@ -9,12 +9,14 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body class="flex flex-col w-full h-full gap-8 px-6 pt-4 pb-20 overflow-auto text-lg leading-relaxed tracking-wide text-justify lg:px-8 xl:text-xl sm:text-base text-default-200 bg-gradient-to-br from-default-800 to-default-900">
+  <body class="flex flex-col w-full h-full gap-8 px-6 pt-4 pb-20 overflow-auto leading-relaxed tracking-wide lg:px-8 text-default-200 bg-gradient-to-br from-default-800 to-default-900">
     <header>
-      <section class="container sticky top-0 z-50 sm:px-2 lg:px-4">
-        <nav class="flex flex-wrap items-end justify-between gap-8">
-          <a href={Routes.page_path(@conn, :index)} class="text-5xl font-normal lowercase font-logo text-brand-400">OwenCode</a>
-          <ul class="flex gap-4 list-none">
+      <section class="sticky top-0 z-50">
+        <nav class="flex flex-wrap items-end justify-between w-full max-w-screen-xl gap-8 mx-auto">
+          <a href={Routes.page_path(@conn, :index)} class="flex flex-wrap text-5xl font-normal lowercase font-logo text-brand-400">
+            <span>Owen</span><span>Code</span>
+          </a>
+          <ul class="flex flex-wrap gap-4 list-none">
             <li><%= link "Home", to: Routes.page_path(@conn, :index)%></li>
             <li><%= link "Posts", to: Routes.post_index_path(@conn, :index)%></li>
             <li><%= link "GitHub", to: "https://github.com/type1fool/owencode" %></li>
@@ -26,10 +28,8 @@
       </section>
     </header>
 
-    <main class="container sm:px-2 lg:px-4">
-      <div class="max-w-prose">
+    <main class="w-full max-w-screen-xl mx-auto">
         <%= @inner_content %>
-      </div>
     </main>
   </body>
 </html>
