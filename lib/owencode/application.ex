@@ -9,7 +9,7 @@ defmodule OwenCode.Application do
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
-      OwenCode.Repo,
+      # OwenCode.Repo,
       # Start the Telemetry supervisor
       OwenCodeWeb.Telemetry,
       # Start the PubSub system
