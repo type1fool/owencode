@@ -1,6 +1,8 @@
 <article class="flex flex-col gap-2">
   <h1 class="text-5xl"><%= @post.title %></h1>
 
+  <span><%= @post.date %></span>
+
   <div class="flex flex-wrap items-baseline gap-4 text-sm">
     <ul class="flex flex-wrap gap-2 p-0 list-none">
           <%= if !@post.published, do: content_tag :span, "DRAFT", class: "p-2 pb-1 leading-none rounded bg-danger-600 text-sm" %>
