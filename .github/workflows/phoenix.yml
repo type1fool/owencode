@@ -54,5 +54,5 @@ jobs:
         with:
           path: _build
           key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}
-      - name: Run tests
+      - name: Test the code
         run: mix test
