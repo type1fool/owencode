@@ -1,5 +1,12 @@
-# It's a Match!
-
+%{
+  slug: "its_a_match",
+  title: "It's a Match!",
+  description: "Learning how to effectively use ETS isn't easy.",
+  author: "Owen Bickford",
+  tags: ~w(elixir ets data performance),
+  published_date: "2025-12-01"
+}
+---
 If you've been writing Elixir long enough, you may have entered the magical world of Erlang Term Storage (ETS). When a performance is critical and a remote database connection comes at too high a cost, ETS is often an excellent choice. 
 
 ETS particularly shines in scenarios where incoming data must be persisted as efficiently as possible. However, peculiarities around its interface present a challenge to effectively wield the tool. The goal of this article is to give you confidence in knowing when to reach for ETS and how to use it to solve real problems.
@@ -495,7 +502,7 @@ You may already be thinking of ways to combine the abstractions in `find/1` and 
 
 Remember, though, that premature optimization is a real problem. If you can get by with a handful of filter functions for a while, and there's no real pain in using them, it may be wise to resist the urge to abstract filtering into a single function.
 
-## Saturation
+## `:ets.tab2file/2`
 
 Now that I have dumped my ephemeral thoughts to storage, it's time to call it a day. I hope you enjoyed reading this article, maybe even learned something new. There is more I want to write about ETS, GenServers, Elixir, and topics in this realm.
 

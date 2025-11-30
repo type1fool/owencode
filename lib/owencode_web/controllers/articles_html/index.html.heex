@@ -1,0 +1,23 @@
+<section class="prose prose-h1:text-primary w-screen">
+  <h1>OwenCode</h1>
+
+  <p>
+    Hello, dear reader. I am Owen Bickford, <.whoami />.
+  </p>
+
+  <div class="flex place-content-center">
+    <img src={random_selfie()} class="rounded-box size-96 object-cover shadow-lg" />
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="space-y-6">
+  <h2 class="font-semibold text-xl">Articles</h2>
+
+  <.link :for={article <- @articles} class="no-underline" href={~p"/articles/#{article.slug}"}>
+    <h3 class="font-semibold text-4xl text-primary">{article.title}</h3>
+    <p>{article.description}</p>
+    <p>{article.published_date} by {article.author}</p>
+  </.link>
+</section>

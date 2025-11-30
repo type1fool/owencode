@@ -1,0 +1,25 @@
+<div class="breadcrumbs">
+  <menu class="flex gap-2 items-center">
+    <.link href={~p"/articles"} class="no-underline">Articles</.link>
+    <.icon name="hero-chevron-right" class="size-4" />
+    <span>{@article.title}</span>
+  </menu>
+</div>
+
+<article class="prose lg:prose-lg prose-h1:font-semibold prose-h1:text-secondary prose-p:text-justify">
+  <h1>{@article.title}</h1>
+
+  <p>{@article.published_date} by {@article.author}</p>
+
+  <p class="text-lg font-semibold">{@article.description}</p>
+
+  <div class="flex gap-2">
+    <span :for={tag <- @article.tags} class="badge badge-primary text-lg">
+      {tag}
+    </span>
+  </div>
+
+  <div class="divider"></div>
+
+  {raw(@article.body)}
+</article>

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title default="Owencode" suffix=" · Phoenix Framework">
+    <.live_title default="Home" suffix=" · OwenCode">
       {assigns[:page_title]}
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
@@ -30,7 +30,9 @@
       })();
     </script>
   </head>
-  <body>
-    {@inner_content}
+  <body class="p-8 font-mono grid place-content-center">
+    <main class="">
+      {@inner_content}
+    </main>
   </body>
 </html>

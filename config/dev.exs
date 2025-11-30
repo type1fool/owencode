@@ -47,6 +47,7 @@ config :owencode, OwencodeWeb.Endpoint,
   live_reload: [
     web_console_logger: true,
     patterns: [
+      ~r"priv/articles/*/.*(md)$",
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"lib/owencode_web/(?:controllers|live|components|router)/?.*\.(ex|heex)$"
     ]

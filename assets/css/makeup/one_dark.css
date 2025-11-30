@@ -1,0 +1,191 @@
+.makeup .unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.makeup .bp {
+  color: #e5c07b;
+} /* :name_builtin_pseudo */
+.makeup .c {
+  color: #8c92a3;
+} /* :comment */
+.makeup .c1 {
+  color: #8c92a3;
+} /* :comment_single */
+.makeup .ch {
+  color: #8c92a3;
+} /* :comment_hashbang */
+.makeup .cm {
+  color: #8c92a3;
+} /* :comment_multiline */
+.makeup .cp {
+  color: #8c92a3;
+} /* :comment_preproc */
+.makeup .cpf {
+  color: #8c92a3;
+} /* :comment_preproc_file */
+.makeup .cs {
+  color: #8c92a3;
+} /* :comment_special */
+.makeup .dl {
+  color: #98c379;
+} /* :string_delimiter */
+.makeup .fm {
+  color: #56b6c2;
+  font-weight: bold;
+} /* :name_function_magic */
+.makeup .il {
+  color: #d19a66;
+} /* :number_integer_long */
+.makeup .k {
+  color: #c678dd;
+} /* :keyword */
+.makeup .kc {
+  color: #e5c07b;
+} /* :keyword_constant */
+.makeup .kd {
+  color: #c678dd;
+} /* :keyword_declaration */
+.makeup .kn {
+  color: #c678dd;
+} /* :keyword_namespace */
+.makeup .kp {
+  color: #c678dd;
+} /* :keyword_pseudo */
+.makeup .kr {
+  color: #c678dd;
+} /* :keyword_reserved */
+.makeup .kt {
+  color: #e5c07b;
+} /* :keyword_type */
+.makeup .m {
+  color: #d19a66;
+} /* :number */
+.makeup .mb {
+  color: #d19a66;
+} /* :number_bin */
+.makeup .mf {
+  color: #d19a66;
+} /* :number_float */
+.makeup .mh {
+  color: #d19a66;
+} /* :number_hex */
+.makeup .mi {
+  color: #d19a66;
+} /* :number_integer */
+.makeup .mo {
+  color: #d19a66;
+} /* :number_oct */
+.makeup .n {
+  color: #c4cad6;
+} /* :name */
+.makeup .na {
+  color: #e06c75;
+} /* :name_attribute */
+.makeup .nb {
+  color: #e5c07b;
+} /* :name_builtin */
+.makeup .nc {
+  color: #e06c75;
+} /* :name_class */
+.makeup .nd {
+  color: #61afef;
+} /* :name_decorator */
+.makeup .ne {
+  color: #c4cad6;
+} /* :name_exception */
+.makeup .nf {
+  color: #61afef;
+  font-weight: bold;
+} /* :name_function */
+.makeup .ni {
+  color: #c4cad6;
+} /* :name_entity */
+.makeup .nl {
+  color: #c4cad6;
+} /* :name_label */
+.makeup .nn {
+  color: #c4cad6;
+} /* :name_namespace */
+.makeup .no {
+  color: #61afef;
+} /* :name_constant */
+.makeup .nt {
+  color: #e06c75;
+} /* :name_tag */
+.makeup .nv {
+  color: #c4cad6;
+} /* :name_variable */
+.makeup .nx {
+  color: #e06c75;
+} /* :name_other */
+.makeup .o {
+  color: #56b6c2;
+} /* :operator */
+.makeup .ow {
+  color: #56b6c2;
+} /* :operator_word */
+.makeup .p {
+  color: #abb2bf;
+} /* :punctuation */
+.makeup .py {
+  color: #c4cad6;
+} /* :name_property */
+.makeup .s {
+  color: #98c379;
+} /* :string */
+.makeup .s1 {
+  color: #98c379;
+} /* :string_single */
+.makeup .s2 {
+  color: #98c379;
+} /* :string_double */
+.makeup .sa {
+  color: #98c379;
+} /* :string_affix */
+.makeup .sb {
+  color: #98c379;
+} /* :string_backtick */
+.makeup .sc {
+  color: #98c379;
+} /* :string_char */
+.makeup .sd {
+  color: #98c379;
+} /* :string_doc */
+.makeup .se {
+  color: #98c379;
+} /* :string_escape */
+.makeup .sh {
+  color: #98c379;
+} /* :string_heredoc */
+.makeup .si {
+  color: #98c379;
+} /* :string_interpol */
+.makeup .sr {
+  color: #98c379;
+} /* :string_regex */
+.makeup .ss {
+  color: #61afef;
+} /* :string_symbol */
+.makeup .sx {
+  color: #98c379;
+} /* :string_other */
+.makeup .sx {
+  color: #98c379;
+} /* :string_sigil */
+.makeup .vc {
+  color: #c4cad6;
+} /* :name_variable_class */
+.makeup .vg {
+  color: #c4cad6;
+} /* :name_variable_global */
+.makeup .vi {
+  color: #c4cad6;
+} /* :name_variable_instance */
+.makeup .vm {
+  color: #c4cad6;
+} /* :name_variable_magic */

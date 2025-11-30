@@ -30,6 +30,32 @@ defmodule OwencodeWeb.CoreComponents do
 
   alias Phoenix.LiveView.JS
 
+  @whoamis [
+    "a web software engineer",
+    "a totally cool & chill guy",
+    "a cat dad",
+    "Elixir evangelist",
+    "and I have thoughts"
+  ]
+
+  defp whoami, do: Enum.random(@whoamis)
+
+  def whoami(assigns) do
+    ~H"""
+    <span>{whoami()}</span>
+    """
+  end
+
+  @selfies [
+    "/images/IMG_8562.jpeg",
+    "/images/IMG_9302.jpg",
+    "/images/IMG_9510.jpg"
+  ]
+
+  def random_selfie do
+    Enum.random(@selfies)
+  end
+
   @doc """
   Renders flash notices.
 
