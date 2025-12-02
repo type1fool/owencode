@@ -17,7 +17,6 @@ defmodule OwencodeWeb.Router do
   scope "/", OwencodeWeb do
     pipe_through :browser
 
-    # get "/", PageController, :home
     get "/", ArticlesController, :index
   end
 
