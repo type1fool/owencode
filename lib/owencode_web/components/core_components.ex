@@ -46,16 +46,6 @@ defmodule OwencodeWeb.CoreComponents do
     """
   end
 
-  @selfies [
-    "/images/IMG_8562.jpeg",
-    "/images/IMG_9302.jpg",
-    "/images/IMG_9510.jpg"
-  ]
-
-  def random_selfie do
-    Enum.random(@selfies)
-  end
-
   @doc """
   Renders flash notices.
 
