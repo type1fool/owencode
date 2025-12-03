@@ -7,58 +7,75 @@
   published_date: "2025-12-01"
 }
 ---
-If you've been writing Elixir long enough, you may have entered the magical world of Erlang Term Storage (ETS). When a performance is critical and a remote database connection comes at too high a cost, ETS is often an excellent choice. 
+If you have been writing Elixir long enough, you may have entered the magical world of Erlang Term Storage (ETS). ETS is one of the many options Elixirists and Erlangers have for storing and retrieving data. When performance is critical and a remote database connection comes at too high a cost, ETS is often an excellent choice. 
 
-ETS particularly shines in scenarios where incoming data must be persisted as efficiently as possible. However, peculiarities around its interface present a challenge to effectively wield the tool. The goal of this article is to give you confidence in knowing when to reach for ETS and how to use it to solve real problems.
+ETS particularly shines in scenarios where incoming data must be stored as efficiently as possible. However, peculiarities around its interface present challenges to effectively wielding the tool. The goal of this article is to give you confidence in knowing when to reach for ETS and how to use it to solve real problems.
 
-Before we start slinging ETS tables willy nilly, let's consider some options.
+Before we start slinging ETS tables willy nilly, let's consider some of our options.
 
 ## The Toolbox
 
-Most web developers will be familiar with relational databases like Postgres, SQLite, MySQL, and the plethora of SQL and no-SQL technologies. Postgres is the default database for new Phoenix projects, so I suspect you're already somewhat familiar with tools like Ecto, and you may have even crafted a few raw SQL queries. SQL is a known quantity, and Ecto has similarities with object relation mapping (ORM) tools in other language ecosystems. Data written to SQL tables is persisted somewhere, be it to a local file, a remote file, or a managed service. Many backup mechanisms exist for preventing data loss, and this is non-negotiable for business-critical data. For these reasons, a SQL table is usually a great choice for managing data in your applications.
+Most web developers will be familiar with relational databases like Postgres, SQLite, MySQL, and the plethora of SQL and no-SQL technologies. Postgres is the default database for new Phoenix projects, so I suspect you're already somewhat familiar with tools like Ecto, and you may have even crafted a few raw SQL queries. **SQL is a known quantity**, and Ecto has similarities with object relation mapping (ORM) tools in other language ecosystems. Data written to SQL tables is persisted _somewhere_, be it to a local file, a remote file, or a managed service. Many backup mechanisms exist for preventing data loss, and this is non-negotiable for business-critical data. For these reasons, a SQL table is usually a great choice for managing data in your applications.
 
 If you are working with data that does not need to be persisted by _your application_, ETS is useful as a caching layer. For example, you may consume realtime data from a stream which is used to populate user interfaces. If your application is not responsible for persistence, caching in ETS will allow your application to reliably render pages with the most recent data.
 
-Although they are outside of the scope of this article, other mechanisms do exist for storing ephemeral data in Elixir applications. GenServers can contain any shape of data you define, but beware bottlenecks that arise when a GenServer process is overwhelmed by messages. Persistent Term Storage is a great mechanism from Erlang which works well for data that needs to be written once, updated rarely, and read frequently. The docs mention atomics and counters, which are valuable for metrics which can be periodicaly reported through Telemetry, for example. I have had great success storing static Explorer dataframes with `:persistent_term`, then applying filters and performing transformations on-demand.
+Although they are outside of the scope of this article, other mechanisms do exist for storing ephemeral data in Elixir applications. GenServers can contain any shape of data you define, but beware bottlenecks that arise when a GenServer process is overwhelmed by messages. Persistent Term Storage is a great mechanism from Erlang which works well for data that needs to be written once, updated rarely, and read frequently. I have had great success storing static Explorer dataframes with `:persistent_term`, then applying filters and performing transformations on-demand. Erlang also provides atomics and counters, which are valuable for tracking metrics with minimal latency.
 
 Before digging deeper into ETS, it's also worth mentioning Cachex, which provides a friendly interface for managing a simple cache. For cases where you need a simple key-value store, Cachex is probably sufficient. ETS, however, enables more complex filtering for data which tends to be tabular in nature - similar to querying SQL data.
 
 ## Setting the Table
 
-If, like me, you have read documentation or books which mention ETS, you may have learned that ETS tables are typically initialized and managed within a GenServer process. This may be appropriate if the volume of change and queries can be managed by a single process. There are times when this pattern results in growing message queues, which leads to delays processing new data and serving requests. Eventually, so much memory may be consumed that the entire application crashes. In severe circumstances, an organization may start to question whether Elixir and Erlang are sufficient.
+If, like me, you have read documentation or books which mention ETS, you may have learned that ETS tables are typically initialized and managed within a GenServer process. This may be appropriate if the volume of change and queries can be managed by a single process. There are use cases when this pattern results in growing message queues, leading to delays processing new data and serving requests. Eventually, so much memory may be consumed that the entire application crashes. In severe circumstances, these performance issues can lead an organization to question whether Elixir and Erlang are up to the task.
 
-Wrapping ETS in a GenServer also tends to add a bit of code complexity, where you need to write multiple `handle_*` callbacks and public API functions. What if we could write a simpler module with functions that directly interact with the table?
+Wrapping ETS in a GenServer also tends to add a bit of code complexity, where you need to write multiple `handle_*` callbacks and public API functions. As code changes hands, the patterns in these modules tend to become a bit erratic as we engineers tend to relish reinvention.
 
-The first question that arises is where to put the table. After all, an ETS table must be owned by a process _somewhere_. The Erlang VM will garbage collect (delete) the table soon after its owner process is terminated. So, where should we create our ETS tables?
+What if we could write a simpler module with functions that directly interact with the table?
 
-Is there a process which remains alive as long as the application is running? In Phoenix & Elixir applications with a supervisor, the supervisor's [`start/2`](https://hexdocs.pm/elixir/Application.html#c:start/2) callback may be an ideal place to spin up whatever global tables we need. 
+The first question that arises without the GenServer-ETS pattern is where to put the table. After all, an ETS table must be owned by a process _somewhere_. The Erlang VM will garbage collect (delete) the table soon after its owner process is terminated, after all.
 
-> NOTE: Module and function docs are omitted here to keep the snippets concise.
+🤔 So, where should we create our ETS tables?
+
+💭 Is there a process which remains alive as long as the application is running?
+
+In Phoenix & Elixir applications with a supervisor, the supervisor's [`start/2`](https://hexdocs.pm/elixir/Application.html#c:start/2) callback may be an ideal place to spin up whatever global tables we need. 
+
+### Table Stakes
+
+Let's imagine a simple Elixir application which monitors room temperatures from some number of sensors. To keep the focus on ETS, I will leave much of the application architecture up to your imagination. However, here are a few relevant decisions:
+
+1. Temperature measurements are streamed into the application from an external service responsible for persistence. If we crash, we can query and/or replay events to get back to a good state.
+2. `TemperaturePipeline` uses Broadway to spread message processing across several processes.
+3. The application, `Sensitive`, will contain many LiveViews which render data primarily from ETS.
+
+<div class="alert alert-soft alert-info">
+NOTE: Module and function docs are omitted here to keep the snippets concise.
+</div>
 
 ```elixir
-defmodule MyApp.Application do
+defmodule Sensitive.Application do
   def start(_start_type, _args) do
     initialize_tables()
     
     children = [
-      MyAppWeb.Telemetry,
-      MyApp.SomeGenServer,
+      SensitiveWeb.Telemetry,
+      Sensitive.TemperaturePipeline,
       ...
-      MyAppWeb.Endpoint
+      SensitiveWeb.Endpoint
     ]
     
-    opts = [strategy: :one_for_one, name: MyApp.Supervisor]
+    opts = [strategy: :one_for_one, name: Sensitive.Supervisor]
     Supervisor.start_link(children, opts)
   end
   
   defp initialize_tables do
-    {:ok, _table} = MyApp.Foo.init()
+    {:ok, _table} = Sensitive.Rooms.init()
+    {:ok, _table} = Sensitive.Temperatures.init()
   end
 end
 ```
 
 ```elixir
-defmodule MyApp.Foo do
+defmodule Sensitive.Temperatures do
   def init(name \\ __MODULE__) do
     table = :ets.new(name, [:set, :named_table, :public])
     {:ok, table}
@@ -70,24 +87,26 @@ This is the pattern I have found to work well for global tables, where other mod
 
 ### Configuration
 
-ETS provides a handful of options which we can use to tailor a table to a particular use case. We've already made a few choices in `MyApp.Foo`:
+ETS provides a handful of options which we can use to tailor a table to a particular use case. The first option we will consider is the table type. Perhaps the two most common table types are `:set` and `:ordered_set`.
 
 - `:set` means the table will effectively have primary keys. Each record will be identified by the value in its key position. In ETS, the default key position is `1`, meaning the first element (as opposed to the second element in zero-indexed code). We will be storing tuples for reasons that will become clear later, so "first element" here means the first item in each tuple.
-- `:ordered_set` is a `:set` where the rows are sorted by the primary key. If you have data with a unique identifier which can be sorted, this is probably the table type you want to use. Sorting your tuples before inserting or updating may also improve performance.
+- `:ordered_set` is a `:set` where the rows are sorted by the primary key. If you have data with a unique identifier which can be sorted, this is probably the table type you want to use. While ETS automatically sorts records as they're added, sorting your tuples before inserting or updating may also improve performance.
 
 #### Protection & Privacy
 
-If you are coming from object oriented land, or you are familiar with security best practices in relational databases, you may be wondering why `MyApp.Foo` was initialized with a `:public` table. ETS does support `:private` and `:protected` access, after all.
+If you are coming from object-oriented land, or you are familiar with security best practices in relational databases, you may be wondering why `Sensitive.Temperatures` was initialized with a `:public` table. ETS does support `:private` and `:protected` access, after all.
 
-Because we expect a high volume of traffic flowing into the table from many Elixir processes, we need a public table. Otherwise, the table would need to be owned by a single process, likely a GenServer, and we would face the bottleneck issues discussed earlier. Because the application supervisor owns the tables following this pattern, they effectively need to be public. 
+Because we expect a high volume of traffic flowing directly into the table from many Elixir processes, we need a public table. Otherwise, the table would need to be owned by a single process, likely a GenServer, and we would face the bottleneck issues discussed earlier. Because the application supervisor owns the tables following this pattern, they effectively need to be public.
 
-This allows for simplicity throughout the application as LiveViews, Controllers, and other processes make calls to whatever public functions we define in `MyApp.Foo`. Caveat that it does mean any process in your application could list all ETS tables, locate public ones, and wreak some havoc. This is a tradeoff which is not acceptible for some data, so factor that into your decisions.
+This allows for simplicity throughout the application as LiveViews, Controllers, and other processes make calls to whatever public functions we define in `Sensitive.Temperatures`. I find it best to perform type casting and data validation outside of the functions in these table modules.
 
-#### Baggage with Bags
+Caveat that `:public` does mean **any process** in your application could list all ETS tables, locate public ones, and wreak some havoc. This is a tradeoff which may not be acceptible for some data, so factor that into your decisions.
+
+#### Baggage
 
 There are two other table types supported by ETS: `:bag` and `:duplicate_bag`. Both may be useful when your data does not have a unique identifier. However, limitations emerge over the life of these tables. Some ETS functions do not work with these tables, and updates may require three operations: **match**, **delete**, then **insert**.
 
-For example, imagine an application which consumes temperature readings from some sensors, where timestamps are represented as nanosecond Unix time integers:
+For example, imagine sensor readings are comprised only of `timestamp`, `label`, `value`, `unit`, where timestamps are represented as nanosecond Unix integers:
 
 ```elixir
 # {timestamp, label, value, unit}
@@ -99,7 +118,7 @@ temperatures = [
 ]
 ```
 
-Although timestamps might appear to be a valid unique identifier, it's possible that two or more sensors will report a reading at precisely the same timestamp, even down to the nanosecond. The last write would win and your application would lose data for other readings from the same timestamp. 
+Although timestamps might appear to be a valid unique identifier, it's likely that two or more sensors will report a reading at precisely the same timestamp, even down to the nanosecond. The last write would win and your application would lose data for other readings from the same timestamp. 
 
 When rows have no inherent unique identifier, often you can derive one by hashing some of its elements with `:erlang.phash2/1`. In our scenario, the timestamp + label can act as a unique identifier when hashed. This approach allows you to use an ordered set, which can be improve read & write performance down the road.
 
@@ -108,22 +127,20 @@ defp prepend_hash({timestamp, room, _temp, _unit}), do: Tuple.put_elem(tuple, 0,
 
 def insert_temperatures(temperatures) do
   rows = Enum.map(temperatures, &prepend_hash/1)
-  :ets.insert(MyApp.Foo, rows)
+  :ets.insert(Sensitive.Temperatures, rows)
 end
 ```
 
 Hashing each row isn't quite free, but it's a cost you can pay once up front if a bag table comes with too many tradeoffs for your use case.
 
-> In code examples, tuples often contain only 2-3 elements, but tuples can contain many more elements. In ETS, think of tuples as rows in a database, where each element represents a value for a column. Tuples could have many elements, though you may find it increasingly difficult to mentally track what each element represents past ten or so elements.
->
-> See https://hexdocs.pm/elixir/lists-and-tuples.html#tuples for a deeper dive into the tuple data structure.
+If this complexity or performance penalty poses a significant challenge, I suggest working with engineers for the data source to discuss adding unique identifiers.
 
 ### Filling the Store
 
-Good news! The imaginary temperature data now has unique integer IDs in addition to timestamps and other fields. Thank you, temperature team!
+Good news! The imaginary temperature data now has unique integer IDs in addition to timestamps and other fields. Thank you, data team!
 
 ```elixir
-# {timestamp, label, value, unit}
+# {reading_id, timestamp, label, value, unit}
 temperatures = [
   {1, 1764379431857451125, "living room", 72.4, :f},
   {2, 1764379508572910097, "kitchen", 72.8, :f},
@@ -133,22 +150,28 @@ temperatures = [
 ]
 ```
 
-Now, we don't need to insert a hash before inserting rows, and we will not need a hash to perform row lookups later. In the real world, you may receive all kinds of unique identifiers, which are a bit out of scope for this article.
+Now, we don't need to insert a hash before inserting rows, and we will not need a hash to perform row lookups later.
 
-In this example, the first element in each row is an integer ID. Because we initialized this table as a `:set`, these integers can appear in the table only once. In fact, the key could be a mix of different types, but this brings us to some general guidelines when getting started with ETS:
+In the real world, you may receive other kinds of unique identifiers, which are a bit out of scope for this article. The first element in each temperature row is an integer ID. Because we initialized this table as a `:set`, these integers can appear in the table only once, in no particular order. In fact, the key could be a mix of different types. Because they are unsorted, performance issues may surface as the computer jumps to random pointers in memory while writing and reading data.
+
+This brings us to some general guidelines when getting started with ETS:
 
 1. Use one data type as the primary key.
 2. Use consistently-sized tuples.
 3. Use `:ordered_set` when keys are naturally sortable.
 
-ETS doesn't enforce many rules as you insert data, but these guidelines will keep the code simpler down the road. **There are exceptions to every rule**, but we'll keep it simple for now.
+ETS doesn't enforce many rules as you insert data, but these guidelines will keep the code simpler down the road. **There are exceptions to every rule**, but start simple and carve out minimal exceptions when necessary.
+
+In traditional code examples, tuples often contain only 2-3 elements, but tuples can contain many more elements. In ETS, think of tuples as rows in a database, where each element represents a value for a column. Although tuples _could_ have dozens of elements, you may find it increasingly difficult to mentally track what each element represents past ten or so elements.
+
+Remember, ETS is optimized for fast writes and reads. If you find yourself managing a table with wide tuples where only a few values change, consider storing the static data using `:persistent_term`. The best solution will depend entirely on the nature of your data.
 
 ### Coherent Concurrency
 
 If you are working with data that comes from multiple processes or is read by multiple processes, you may want to enable some amount concurrency. If we are consuming temperature data through Broadway, for example, we may have dozens of processes inserting rows into the table. We can enable write concurrency to allow efficient insert operations in this case. Write Concurrency works well when various processes are working with distinct rows - in this case, each process is inserting new rows. The ETS documentation recommends using `:auto` for write concurrency in most tables where write concurrency is desired:
 
 ```elixir
-defmodule MyApp.Foo do
+defmodule Sensitive.Temperatures do
   def init(name \\ __MODULE__) do
     table = :ets.new(name, [:set, :named_table, :public, write_concurrency: :auto])
     {:ok, table}
@@ -161,7 +184,7 @@ This will override the default `false` setting for the table's write concurrency
 For tables _read_ by several processes, read concurrency is also available:
 
 ```elixir
-defmodule MyApp.Foo do
+defmodule Sensitive.Temperatures do
   def init(name \\ __MODULE__) do
     table = :ets.new(name, [
       :set,
@@ -180,22 +203,22 @@ As always, there are tradeoffs when enabling concurrency for reads and/or writes
 
 ### Concurrent Tests
 
-So far, we have created a `MyApp.Foo` module, which initializes a `MyApp.Foo` table when the application starts. This is a global table, a singleton instance. As our applications grow, it's important to build these components in a way that enables asynchronous testing.
+So far, we have created a `Sensitive.Temperatures` module, which initializes a `Sensitive.Temperatures` table when the application starts. This is a global table, a singleton instance. As our applications grow, it's important to build these components in a way that enables asynchronous testing.
 
-This is why `MyApp.Foo.init/1` takes an optional `name` argument, which defaults to the module name. In tests which interact with this module, we can create random names for the table, taking advantage of async tests.
+This is why `Sensitive.Temperatures.init/1` takes an optional `name` argument, which defaults to the module name. In tests which interact with this module, we can create random names for the table, taking advantage of async tests.
 
 ```elixir
-defmodule MyApp.FooTest do
+defmodule Sensitive.TemperaturesTest do
   use ExUnit.Case, async: true
   
   setup do
     hash = Enum.take_random(?A..?Z, 6) |> to_string()
     # "YHEBQU"
-    table_name = Module.concat(MyApp.Foo, hash)
-    # MyApp.Foo.YHEBQU
-    {:ok, table} = MyApp.Foo.init(table_name)
-    # {:ok, MyApp.Foo.YHEBQU}
-    :ok = Process.put({MyApp.Foo, :table}, table)
+    table_name = Module.concat(Sensitive.Temperatures, hash)
+    # Sensitive.Temperatures.YHEBQU
+    {:ok, table} = Sensitive.Temperatures.init(table_name)
+    # {:ok, Sensitive.Temperatures.YHEBQU}
+    :ok = Process.put({Sensitive.Temperatures, :table}, table)
     
     :ok
   end
@@ -203,9 +226,9 @@ defmodule MyApp.FooTest do
   describe "insert/1" do
     test "stores temperatures in the table" do
       temperatures = [...]
-      MyApp.Foo.insert(temperatures)
+      Sensitive.Temperatures.insert(temperatures)
       
-      stored_temps = MyApp.Foo.all()
+      stored_temps = Sensitive.Temperatures.all()
       
       for temp <- temperatures do
         assert temp in stored_temps
@@ -217,10 +240,10 @@ end
 
 The setup block generates a random hash which is appended to the module name, which is passed to `init/1`. This is a pattern I have found useful, but you may find another pattern which works as well or better. Instead of creating a fully random name, the module prefix is helpful for debugging.
 
-Notice that we've added a `{MyApp.Foo, :table}` key to the process dictionary with the value set to the value of `table`. We need to make a change to the module so it can use this value in the test environment.
+Notice that we've added a `{Sensitive.Temperatures, :table}` key to the process dictionary with the value set to the value of `table`. We need to make a change to the module so it can use this value in the test environment.
 
 ```elixir
-defmodule MyApp.Foo do
+defmodule Sensitive.Temperatures do
   ...
  
   def insert_temperatures(temperatures) do
@@ -238,7 +261,7 @@ defmodule MyApp.Foo do
 end
 ```
 
-In the `:test` environment, we will require all tests to set `{MyApp.Foo, :table}` in the process dictionary, raising an error when that key is not present or its value is nil. In `:dev` and `:prod` environments, `__MODULE__` will be the table's name since we expect to use the global singleton table.
+In the `:test` environment, we will require all tests to set `{Sensitive.Temperatures, :table}` in the process dictionary, raising an error when that key is not present or its value is nil. In `:dev` and `:prod` environments, `__MODULE__` will be the table's name since we expect to use the global singleton table.
 
 This is a pattern recommended by Andrea Leopardi for testing GenServers using JB Steadman's excellent ProcessTree package, and I think the pattern extends nicely to global ETS tables.
 
@@ -375,7 +398,7 @@ If match specs weren't already confusing enough, this might seem incomprehensibl
 Let's find all readings from the patio in farenheit (`:f`):
 
 ```elixir
-temperatures = MyApp.Foo.find(label: "patio", unit: :f)
+temperatures = Sensitive.Temperatures.find(label: "patio", unit: :f)
 ```
 
 Now, I'll add comments to illustrate each variable:
@@ -466,7 +489,7 @@ Knowing that each row's third element is the label, we build a match spec using 
 searching for readings for the patio and living room, we can now make one function call instead of performing lookups for each label:
 
 ```elixir
-temperatures = MyApp.Foo.find_by_labels(["patio", "living room"])
+temperatures = Sensitive.Temperatures.find_by_labels(["patio", "living room"])
 ```
 
 The generated match spec would look like this:
@@ -514,3 +537,7 @@ It is a labor of love to share lessons I have learned with a community that shar
 - https://www.erlang.org/doc/apps/erts/erlang.html#phash2/1
 - https://andrealeopardi.com/posts/async-tests-in-elixir/
 - https://hexdocs.pm/process_tree/ProcessTree.html
+- https://www.erlang.org/doc/apps/erts/atomics.html
+- https://www.erlang.org/doc/apps/erts/counters.html
+- https://hexdocs.pm/cachex/overview.html
+- https://hexdocs.pm/elixir/lists-and-tuples.html#tuples
