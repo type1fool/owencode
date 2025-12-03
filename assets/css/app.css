@@ -64,7 +64,7 @@
 /* This file is for your main application CSS */
 
 a {
-  @apply underline-offset-3 underline-2 decoration-cyan-500;
+  @apply underline-offset-3 decoration-cyan-500;
 }
 
 pre {
