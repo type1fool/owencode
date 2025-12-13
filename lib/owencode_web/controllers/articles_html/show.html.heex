@@ -23,5 +23,15 @@
     <div class="divider"></div>
 
     {raw(@article.body)}
+
+    <div :if={discussion = @article.discussion}>
+      <div class="divider"></div>
+
+      <h2>Discuss This Article</h2>
+
+      <ul>
+        <li :for={{label, url} <- discussion}><.link href={url}>{label}</.link></li>
+      </ul>
+    </div>
   </article>
 </Layouts.app>

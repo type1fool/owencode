@@ -4,7 +4,10 @@
   description: "Learning how to effectively use ETS isn't easy.",
   author: "Owen Bickford",
   tags: ~w(elixir ets data performance),
-  published_date: "2025-12-01"
+  published_date: "2025-12-01",
+  discussion: %{
+    "Bluesky" => "https://bsky.app/profile/owencode.com/post/3m7anpwzp6k2m"
+  }
 }
 ---
 If you have been writing Elixir long enough, you may have entered the magical world of Erlang Term Storage (ETS). ETS is one of the many options Elixirists and Erlangers have for storing and retrieving data. When performance is critical and a remote database connection comes at too high a cost, ETS is often an excellent choice. 
