@@ -70,3 +70,7 @@ a {
 pre {
   @apply shadow-md;
 }
+
+aside {
+  @apply border-l-4 border-accent pl-4;
+}
