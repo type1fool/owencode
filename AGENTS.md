@@ -29,8 +29,8 @@ custom classes must fully style the input
       @source "../../lib/my_app_web";
 
 - **Always use and maintain this import syntax** in the app.css file for projects generated with `phx.new`
-- **Never** use `@apply` when writing raw css
-- **Always** manually write your own tailwind-based components instead of using daisyUI for a unique, world-class design
+- **Prefer daisyUI component classes** (`btn`, `badge`, `alert`, `divider`, etc.) and theme tokens (`primary`, `base-content`, `base-300`, ...) for UI, leaning on the configured light/dark themes instead of hand-rolling custom components
+- When writing raw CSS in `app.css`, prefer plain CSS declarations (e.g. `text-decoration-color: var(--color-primary)`) over `@apply`; reserve `@apply` for cases where a utility composition is genuinely clearer
 - Out of the box **only the app.js and app.css bundles are supported**
   - You cannot reference an external vendor'd script `src` or link `href` in the layouts
   - You must import the vendor deps into app.js and app.css to use them
@@ -42,6 +42,12 @@ custom classes must fully style the input
 - Implement **subtle micro-interactions** (e.g., button hover effects, and smooth transitions)
 - Ensure **clean typography, spacing, and layout balance** for a refined, premium look
 - Focus on **delightful details** like hover effects, loading states, and smooth page transitions
+
+### Brand & typography (OwenCode)
+
+- **Brand color:** a bold blue, exposed via the daisyUI `primary` and `accent` tokens (`#2563eb` in the light theme, `#3b82f6` in the dark theme for contrast). Reserve it for **actionable** elements only — links, buttons, the logo, focus rings, and the `aside` accent border. Keep non-actionable text and headings neutral (`text-base-content` / `text-base-content/70`, etc.).
+- **Type:** Arvo (serif) is the default `--font-sans` for all body copy and headings; Sono (monospace) is `--font-mono` and is used only for `pre`/`code`/`kbd`/`samp`. Arvo ships only weights 400 and 700 — prefer `font-normal` and `font-bold` over `font-medium`/`font-semibold` so weights map cleanly.
+- Code blocks use the `monokai` Makeup theme, imported only in `assets/css/app.css`.
 
 
 <!-- usage-rules-start -->

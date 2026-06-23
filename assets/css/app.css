@@ -9,13 +9,51 @@
 
 @plugin "@tailwindcss/typography";
 
+/* Arvo: serif face used for all body copy and headings (weights 400 & 700). */
+@font-face {
+  font-family: "Arvo";
+  src: url("../../fonts/Arvo-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arvo";
+  src: url("../../fonts/Arvo-Italic.ttf") format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arvo";
+  src: url("../../fonts/Arvo-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Arvo";
+  src: url("../../fonts/Arvo-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Sono: variable monospace face used only for code. */
 @font-face {
   font-family: "Sono";
-  src: url("../../fonts/Sono-VariableFont_MONO,wght.ttf");
+  src: url("../../fonts/Sono-VariableFont_MONO,wght.ttf") format("truetype-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
 }
 
 @theme {
-  --font-mono: "Sono", ui-serif, Georgia, Cambria, serif;
+  --font-sans: "Arvo", ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --font-mono: "Sono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 /* A Tailwind plugin that makes "hero-#{ICON}" classes available.
@@ -31,13 +69,17 @@
 
 /* daisyUI theme plugin. You can update this file by fetching the latest version with:
   curl -sLO https://github.com/saadeghi/daisyui/releases/latest/download/daisyui-theme.js
-  We ship with two themes, a light one inspired on Phoenix colors and a dark one inspired
-  on Elixir colors. Build your own at: https://daisyui.com/theme-generator/ */
+  We ship two themes, both anchored on a bold blue brand color exposed via the
+  `primary` and `accent` daisyUI tokens. Build your own at: https://daisyui.com/theme-generator/ */
 @plugin "../vendor/daisyui-theme" {
   name: "dark";
   default: false;
   prefersdark: true;
   color-scheme: "dark";
+  --color-primary: #3b82f6;
+  --color-primary-content: #eff6ff;
+  --color-accent: #60a5fa;
+  --color-accent-content: #eff6ff;
 }
 
 @plugin "../vendor/daisyui-theme" {
@@ -45,6 +87,10 @@
   default: true;
   prefersdark: false;
   color-scheme: "light";
+  --color-primary: #2563eb;
+  --color-primary-content: #ffffff;
+  --color-accent: #2563eb;
+  --color-accent-content: #ffffff;
 }
 
 /* Add variants based on LiveView classes */
@@ -64,13 +110,23 @@
 /* This file is for your main application CSS */
 
 a {
-  @apply underline-offset-3 decoration-cyan-500;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-primary);
+}
+
+/* Keep code in the Sono monospace face everywhere. */
+pre,
+code,
+kbd,
+samp {
+  font-family: var(--font-mono);
 }
 
 pre {
-  @apply shadow-md;
+  border-radius: 0.5rem;
 }
 
 aside {
-  @apply border-l-4 border-accent pl-4;
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1rem;
 }

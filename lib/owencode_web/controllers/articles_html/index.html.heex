@@ -1,25 +1,28 @@
 <Layouts.app flash={@flash}>
-  <section class="prose prose-h1:text-primary prose-h1:text-6xl prose-h1:m-0 prose-h1:font-light w-full">
-    <h1>OwenCode</h1>
-
-    <p>
+  <section class="mb-16">
+    <h1 class="text-4xl font-bold tracking-tight text-base-content sm:text-5xl">Owen Bickford</h1>
+    <p class="mt-4 text-lg leading-relaxed text-base-content/70">
       Hello, dear reader. I am Owen Bickford, <.whoami />.
     </p>
   </section>
 
-  <div class="divider"></div>
+  <section>
+    <h2 class="mb-8 text-xs font-bold uppercase tracking-[0.2em] text-base-content/40">
+      Articles
+    </h2>
 
-  <section class="space-y-6">
-    <h2 class="font-semibold text-xl">Articles</h2>
-
-    <.link
-      :for={article <- @articles}
-      class="no-underline leading-tight"
-      href={~p"/articles/#{article.slug}"}
-    >
-      <h3 class="font-light text-4xl text-primary">{article.title}</h3>
-      <p>{article.description}</p>
-      <p class="text-base">{article.published_date} by {article.author}</p>
-    </.link>
+    <ul class="space-y-10">
+      <li :for={article <- @articles}>
+        <.link href={~p"/articles/#{article.slug}"} class="group block">
+          <h3 class="text-2xl font-bold text-primary transition-opacity group-hover:opacity-80 group-hover:underline group-hover:underline-offset-4 sm:text-3xl">
+            {article.title}
+          </h3>
+          <p class="mt-2 text-base leading-relaxed text-base-content/70">{article.description}</p>
+          <p class="mt-2 text-sm text-base-content/40">
+            {article.published_date} · {article.author}
+          </p>
+        </.link>
+      </li>
+    </ul>
   </section>
 </Layouts.app>

@@ -1,36 +1,53 @@
 <Layouts.app flash={@flash}>
-  <div class="breadcrumbs">
-    <menu class="flex gap-2 items-center">
-      <.link href={~p"/articles"} class="no-underline">Articles</.link>
-      <.icon name="hero-chevron-right" class="size-4" />
-      <span>{@article.title}</span>
-    </menu>
-  </div>
+  <nav class="mb-10 flex items-center gap-1.5 text-sm text-base-content/50">
+    <.link href={~p"/articles"} class="transition-colors hover:text-primary">Articles</.link>
+    <.icon name="hero-chevron-right" class="size-3.5" />
+    <span class="truncate text-base-content/70">{@article.title}</span>
+  </nav>
 
-  <article class="wrap-break-word">
-    <h1>{@article.title}</h1>
+  <article>
+    <h1 class="text-4xl font-bold tracking-tight text-base-content sm:text-5xl">
+      {@article.title}
+    </h1>
 
-    <p>{@article.published_date} by {@article.author}</p>
+    <p class="mt-3 text-sm text-base-content/50">
+      {@article.published_date} · {@article.author}
+    </p>
 
-    <p class="text-lg font-semibold">{@article.description}</p>
+    <p class="mt-6 text-xl leading-relaxed text-base-content/70">
+      {@article.description}
+    </p>
 
-    <div class="flex flex-wrap gap-2">
-      <span :for={tag <- @article.tags} class="badge badge-primary text-base">
+    <div :if={@article.tags != []} class="mt-6 flex flex-wrap gap-2">
+      <span
+        :for={tag <- @article.tags}
+        class="badge badge-outline border-base-300 font-normal text-base-content/60"
+      >
         {tag}
       </span>
     </div>
 
-    <div class="divider"></div>
+    <hr class="my-10 border-base-300" />
 
-    {raw(@article.body)}
+    <div class="prose prose-lg max-w-none prose-headings:text-base-content prose-a:text-primary prose-pre:rounded-lg prose-pre:font-mono">
+      {raw(@article.body)}
+    </div>
 
-    <div :if={discussion = @article.discussion}>
-      <div class="divider"></div>
+    <div :if={discussion = @article.discussion} class="mt-16">
+      <hr class="border-base-300" />
 
-      <h2>Discuss This Article</h2>
+      <h2 class="mt-8 text-lg font-bold text-base-content">Discuss this article</h2>
 
-      <ul>
-        <li :for={{label, url} <- discussion}><.link href={url}>{label}</.link></li>
+      <ul class="mt-4 space-y-2">
+        <li :for={{label, url} <- discussion}>
+          <.link
+            href={url}
+            class="inline-flex items-center gap-1.5 text-primary transition-opacity hover:opacity-80 hover:underline"
+          >
+            {label}
+            <.icon name="hero-arrow-top-right-on-square-micro" class="size-3.5" />
+          </.link>
+        </li>
       </ul>
     </div>
   </article>
